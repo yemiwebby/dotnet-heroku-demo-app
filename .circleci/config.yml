@@ -22,7 +22,6 @@ jobs:
           command: dotnet.exe build --configuration Release
 workflows:
   jobs:
-    - build:
     - heroku/deploy-via-git:
         force: true
         requires:
