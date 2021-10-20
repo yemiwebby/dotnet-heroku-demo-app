@@ -5,8 +5,8 @@ orbs:
   windows: circleci/windows@2.2.0
 
 jobs:
-  test:
-    description: Setup and run application tests
+  build:
+    description: Build application with Release configuration
     executor:
       name: windows/default
     steps:
@@ -17,29 +17,13 @@ jobs:
       - run:
           name: "Install project dependencies"
           command: dotnet.exe restore
-      - save_cache:
-          paths:
-            - C:\Users\circleci\.nuget\packages
-          key: dotnet-packages-v1-{{ checksum "demoDotnet.csproj" }}
-      - run:
-          name: "Print Working Directory"
-          command: pwd
-      - store_artifacts:
-          path: C:\Users\circleci\project\test_coverage
-  build:
-    description: Build application with Release configuration
-    executor:
-      name: windows/default
-    steps:
-      - checkout
       - run:
           name: "Build Application according to some given configuration"
           command: dotnet.exe build --configuration Release
 workflows:
-  sample:
-    jobs:
-      - build:
-      - heroku/deploy-via-git:
-          force: true
-          requires:
-            - build
+  jobs:
+    - build:
+    - heroku/deploy-via-git:
+        force: true
+        requires:
+          - build
