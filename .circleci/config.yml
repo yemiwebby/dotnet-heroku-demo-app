@@ -21,8 +21,9 @@ jobs:
           name: "Build Application according to some given configuration"
           command: dotnet.exe build --configuration Release
 workflows:
-  jobs:
-    - heroku/deploy-via-git:
-        force: true
-        requires:
-          - build
+  heroku_deploy:
+    jobs:
+      - heroku/deploy-via-git:
+          force: true
+          requires:
+            - build
