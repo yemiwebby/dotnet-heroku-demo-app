@@ -24,6 +24,3 @@ workflows:
   heroku_deploy:
     jobs:
       - heroku/deploy-via-git:
-          force: true
-          requires:
-            - build
